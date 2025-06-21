@@ -1,27 +1,20 @@
-const express=require(`express`);
-const router=express.Router();
+const express = require("express");
+const router = express.Router();
 
-const studentRouter=require("./student")
-const userRouter=require("./users")
-router.post("/register",(req,res)=>{
-        res.json({msg:"user register"})
-       
+const movieRouter=require("../modules/movies/movie.api")
+const orderRouter=require("../modules/order/order.api")
+const usersRouter=require("../modules/users/users.api")
+router.use("/api/v1/users", usersRouter)
+router.use("/api/v1/movies", movieRouter)
+router.use("/api/v1/order", orderRouter)
+
+router.get("/api/v1" ,  (req, res, next)=>{
+      try{
+          res.json({msg:"api is working "})
+      }
+      catch(e){
+        next(e)
+      }
 })
-router.post("/login",(req,res,next)=>{
-        try{
-        const {username ,password} =req.body
-        console.log({username,password})
-      if(username!=="nischalmainali75@gmail.com"|| password!=="123"){
-        throw new err("Invalid Credential")
-      }else
-        
-       { res.json({msg:"Login-user"})}
-        }
-        catch(error){
-              next({err})
 
-        }
-       
-       
-});
-module.exports=router;
+module.exports = router;

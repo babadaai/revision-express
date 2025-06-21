@@ -11,8 +11,8 @@ app.use(express.json())
 app.use("/",indexRouter);
 
 app.use((err, req, res, next) => {
-  console.error({ app: err });
-  res.status(500).json({ err: "Something went wrong." });
+  console.error("Error:", err.message);
+  res.status(500).json({ err: err.message }); 
 });
 
     app.listen(Port,()=>{
