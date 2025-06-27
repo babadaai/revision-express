@@ -1,16 +1,16 @@
 const router = require('express').Router();
 
-const {mw}=require("../../utils/secure")
 
 
-router.get("/",mw(["admin"]), (req, res, next) => {
+
+router.get("/", (req, res, next) => {
     try {
         res.json({ msg: "Movies list are here", data: req.body});
     } catch (e) {
         next(e); 
     }
 });
-router.post("/",mw(["user","admin"]), (req,res,next)=>{
+router.post("/", (req,res,next)=>{
     try{
         res.json({msg:"new movie"})
     }catch(e){next(e)}

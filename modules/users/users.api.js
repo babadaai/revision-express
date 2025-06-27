@@ -1,63 +1,41 @@
 const router = require('express').Router();
-
-// Register
-router.post('/register', (req, res, next) => {
-    res.json({ msg: 'User registered' });
-});
-
 // Login
+const {generateToken}=require("../../utils/jwt")
+
 router.post('/login', (req, res, next) => {
-    res.json({ msg: 'User logged in' });
-});
+    try{
+        const {email, password}=req.body
+  if (email==="nischal@123.com" && password==="123"){
+    const payload={
+        email,
+        role:["admin"]
+    }
 
-// Forget Password
-router.post('/forgot-password', (req, res, next) => {
-    res.json({ msg: 'Password reset link sent' });
-});
+      const token=generateToken(payload);
+   return res.json({ msg: 'User logged in',data:token });
+}else
+        {   
+             res.json({msg:"Invalid login",data:""})
+            
+        }       
+} 
+catch(e)
+{    next(e)
+        }
+}
 
-// Reset Password
-router.post('/reset-password', (req, res, next) => {
-    res.json({ msg: 'Password reset successful' });
-});
-
-// Change Password (authenticated)
-router.post('/change-password', (req, res, next) => {
-    res.json({ msg: 'Password changed' });
-});
-
-// Verify Token
-router.post('/verify-token', (req, res, next) => {
-    res.json({ msg: 'Token verified' });
-});
-
-// Change Status of User (e.g., active/block)
-router.patch('/:id/status', (req, res, next) => {
-    res.json({ msg: `Status updated for user ${req.params.id}` });
-});
-
-// Delete User
-router.delete('/:id', (req, res, next) => {
-    res.json({ msg: `User ${req.params.id} deleted` });
-});
+);
 
 // List Users
-router.get('/', (req, res, next) => {
-    res.json({ msg: 'All users listed' });
+const {secure}=require("../../utils/new_secure")
+router.get('/', secure(["admin"]),(req, res, next) => {
+    try{
+    res.json({ msg: 'All users listed', data:[] });
+    }
+    catch(e){
+        next(e);
+    }
 });
 
-// Update User (Admin)
-router.put('/:id', (req, res, next) => {
-    res.json({ msg: `User ${req.params.id} updated` });
-});
-
-// Update My Profile
-router.put('/me/update', (req, res, next) => {
-    res.json({ msg: 'My profile updated' });
-});
-
-// Get One User
-router.get('/:id', (req, res, next) => {
-    res.json({ msg: `Details for user ${req.params.id}` });
-});
 
 module.exports = router;
