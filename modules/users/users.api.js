@@ -1,8 +1,26 @@
 const router = require('express').Router();
 const event =require("events")
+const multer=require("multer")
 const { sendMail } = require('../../services/mailer');
 // Login
 const {generateToken}=require("../../utils/jwt")
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/upload')
+        
+    },
+    filename: function (req, file, cb) {
+        console.log({file},Date.now())
+      
+        cb(null, file.fieldname.concat("-",Date.now(),".", file.originalname.split[1]))
+    }
+})
+const upload=multer({storage: storage, limits: { fileSize: 1 * 1024 * 1024 } })
+
+const {validator}=require("./user.validator")
+
 
 router.post('/login', (req, res, next) => {
     try{
@@ -34,9 +52,10 @@ eventEmitter.addListener("signup", (email)=> sendMail({
                     subject:"Movie-Mate sign up",
                     htmlMsg:"<b>Thank's for joining Movie-Mate</b>"
                 }))
-router.post("/register",async(req,res,next)=>{
+router.post("/register",  upload.single('profile'),validator,(req,res,next)=>{
     try{
             const {email}=req.body;
+           // console.log(req.body,req.files,req.file)
             if(!email) throw new Error("Email is missing ")
                eventEmitter.emit("signup",email)
                 res.json({msg:"Movie registration successful"})
