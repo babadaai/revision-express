@@ -3,8 +3,19 @@ require("dotenv").config()
 const express =require(`express`)
 const app =express();
 const morgan=require("morgan")
+const mongoose = require('mongoose');
 
 const indexRouter=require("./Routes/index")
+
+
+mongoose.connect(process.env.DB_URL).then(()=>{
+  console.log("Database connected successfully")
+
+}).catch((e)=>{
+  console.log("Database Error", e)
+
+
+})
 
 const Port=Number(process.env.Port)
 app.use(express.json())

@@ -1,4 +1,4 @@
-const e = require("express");
+const express = require("express");
 const Joi=require("joi")
 
 
@@ -8,8 +8,13 @@ const userSchema = Joi.object({
         .email({ minDomainSegments: 2, tlds: { allow: ['com','np'] } })
         .required(),
 
-  gender:Joi.string().valid("Male","Female","Others"),
-  profile:Joi.string(),
+  password:Joi.string().required(),
+  phoneNum:Joi.number(),
+  role:Joi.array().items(Joi.string().valid("admin","user"), Joi.number()),
+  image:Joi.string(),
+  isEmailVerifed:Joi.boolean(),
+    isActive:Joi.boolean(),
+
 
 });
 const validator=async(req,res,next)=>{

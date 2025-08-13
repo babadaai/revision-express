@@ -8,7 +8,7 @@ router.use("/api/v1/users", usersRouter)
 router.use("/api/v1/movies", movieRouter)
 router.use("/api/v1/order", orderRouter)
 
-router.get("/api/v1" ,  (req, res, next)=>{
+router.get("/api/v1" ,  async(req, res, next)=>{
       try{
           res.json({msg:"api is working "})
       }
