@@ -23,7 +23,7 @@ app.use(express.json())
 app.use("/assets",express.static("public"))
 app.use(morgan("dev"))
 
-app.use("/",indexRouter);
+app.use("",indexRouter);
 
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);
