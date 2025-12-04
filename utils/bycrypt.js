@@ -1,12 +1,16 @@
 
 const Bcrypt = require('bcryptjs');
 
-const genHash = (plain) => {
-    return Bcrypt.hashSync(plain, Number(process.env.SALT_ROUND));
-};
+const genHash = (payload) => {
+    return Bcrypt.hashSync(payload, Number(process.env.SALT_ROUND));
+}
 
-const compHash = (plain, hashed) => {
-    return Bcrypt.compareSync(plain, hashed);
-};
+const compHash = ({ payload, hashPayload }) => {
+    if (!payload || !hashPayload) {
+        throw new Error("payload and hashPayload are required");
+    }
+    return Bcrypt.compare(payload, hashPayload);
+}
 
 module.exports = { genHash, compHash };
+

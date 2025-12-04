@@ -18,6 +18,9 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    otp:{
+      type:String
+    },
     phoneNum: {
       type: Number, // Corrected from 'number'
     },

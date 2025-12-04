@@ -4,6 +4,8 @@ const multer=require("multer")
 // Login
 const {generateToken}=require("../../utils/jwt")
 const userController=require('./user.controller')
+const userSchema=require('./user.model')
+const {secure}=require("../../utils/new_secure")
 
 
 const storage = multer.diskStorage({
@@ -20,6 +22,33 @@ const storage = multer.diskStorage({
 const upload=multer({storage: storage, limits: { fileSize: 1 * 1024 * 1024 } })
 
 const {validator}=require("./user.validator")
+router.post('/generate-email-token', async(req, res, next) => {
+    try{
+       
+      const result = await userController.generateEmailtoken(req.body)
+        res.json({msg:"tokenGenerated",data:result})
+      
+} 
+catch(e){
+    next(e);
+}
+})
+
+router.post('/verify-email', async(req, res, next) => {
+    try{
+       
+      const result = await userController.verifyEmailToken(req.body)
+        res.json({
+            msg: "Email verified successfully",
+            data: result,
+            isEmailVerified:userController.updateEmailVerfication
+        });
+      
+} 
+catch(e){
+    next(e);
+}
+})
 
 
 router.post('/login', async(req, res, next) => {
@@ -30,6 +59,7 @@ router.post('/login', async(req, res, next) => {
         res.json({msg:"User logged in",data:result})
       
 } 
+
 catch(e)
 {    next(e)
         }
@@ -57,7 +87,6 @@ router.post("/register",  upload.single('profile'),validator,async (req,res,next
 })
 
 // List Users
-const {secure}=require("../../utils/new_secure")
 router.get('/', secure(["admin"]),(req, res, next) => {
     try{
     res.json({ msg: 'All users listed', data:[] });
@@ -66,6 +95,8 @@ router.get('/', secure(["admin"]),(req, res, next) => {
         next(e);
     }
 });
+router.patch('/:id',async(req,res,next)=>{
+})
 
 
 module.exports = router;
