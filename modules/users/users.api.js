@@ -8,6 +8,7 @@ const userSchema=require('./user.model')
 const {secure}=require("../../utils/new_secure")
 
 
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/upload')
@@ -86,16 +87,88 @@ router.post("/register",  upload.single('profile'),validator,async (req,res,next
     }
 })
 
-// List Users
-router.get('/', secure(["admin"]),(req, res, next) => {
+//user part 2
+router.get('/', secure(["admin"]),async(req, res, next) => {
     try{
-    res.json({ msg: 'All users listed', data:[] });
+        const data = userController.list();
+    res.json({ msg: 'Users list generated ', data});
     }
     catch(e){
         next(e);
     }
 });
-router.patch('/:id',async(req,res,next)=>{
+
+
+
+router.patch('/:id/block',async(req,res,next)=>{
+     try{
+    res.json({ msg: 'All users listed', data:[] });
+    }
+    catch(e){
+        next(e);
+    }
+})
+router.delete('/:id',async(req,res,next)=>{
+
+      try{
+    res.json({ msg: 'All users listed', data:[] });
+    }
+    catch(e){
+        next(e);
+    }
+
+})
+router.get('profile',async(req,res,next)=>{
+
+     try{
+    res.json({ msg: 'All users listed', data:[] });
+    }
+    catch(e){
+        next(e);
+    }
+})
+
+router.put('profile',async(req,res,next)=>{
+     try{
+    res.json({ msg: 'All users listed', data:[] });
+    }
+    catch(e){
+        next(e);
+    }
+})
+router.get('/:id',async(req,res,next)=>{
+     try{
+    res.json({ msg: 'All users listed', data:[] });
+    }
+    catch(e){
+        next(e);
+    }
+   
+})
+
+ router.post('/change-password',async(req,res,next)=>{
+     try{
+    res.json({ msg: 'All users listed', data:[] });
+    }
+    catch(e){
+        next(e);
+    }
+})
+ router.post('/reset-password',async(req,res,next)=>{
+     try{
+    res.json({ msg: 'All users listed', data:[] });
+    }
+    catch(e){
+        next(e);
+    }
+})
+ router.post('/forget-password',async(req,res,next)=>{
+     try{
+    res.json({ msg: 'All users listed', data:[] });
+    }
+    catch(e){
+        next(e);
+    }
 })
 
 

@@ -4,7 +4,10 @@ const {checkRole, verifyToken}=require("./jwt")
 const secure=(sysRole)=>{
     return (req,res,next)=>{
         try{
-        const {token}=req.headers
+        const authHeader = req.headers["authorization"];
+if (!authHeader) throw new Error("Token is missing");
+
+const token = authHeader.split(" ")[1]; // removes "Bearer"
         //check if token exist or not
         if(!token) throw new Error("Token is missing") 
         const isValid=verifyToken(token)
@@ -17,6 +20,7 @@ const secure=(sysRole)=>{
     }
 catch(e){
     next(e);
+    
 }
 }
 

@@ -24,12 +24,12 @@ const userSchema = new Schema(
     phoneNum: {
       type: Number, // Corrected from 'number'
     },
-    role: { 
-      type: String,
-      enum: ["admin", "user"],
-      default: "user",
-      required: true, 
-    },
+   role: {
+  type: [String],                  // array of strings
+  enum: ["admin", "user"],         // only allow these values
+  default: ["user"],               // default must be an array
+  required: true
+},
     isEmailVerified: { 
       type: Boolean,
       required: true,
